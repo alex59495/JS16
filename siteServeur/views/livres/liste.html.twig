@@ -1,0 +1,64 @@
+{% extends '../base.html.twig' %}
+
+{% block titre %}Page listant les livres{% endblock %}
+
+{% block contenu %}
+  {% if message|length >0 %}
+    <div class="alert alert-{{message.type}}" role="alert">
+      {{ message.content }}
+    </div>
+  {% endif %}
+  <table class="table text-center" id='tableauLivre'>
+    <t class="head">
+      <tr class="table-dark">
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Nombre de pages</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </t>
+    <tbody>
+      {% for livre in liste %}
+        <tr>
+          <td><a href= "/livres/{{ livre._id }}">{{ livre.nom }}</a></td>
+          <td>{{ livre.auteur }}</td>
+          <td>{{ livre.pages }}</td>
+          <td><a href="livres/modification/{{ livre._id }}" class="btn btn-warning">Modifier</a></td>
+          <td>
+            <form method="POST" action="/livres/delete/{{ livre._id }}" onSubmit="return confirm('Voulez-vous vraiment supprimer le livre?')">
+              <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class='btn btn-success d-block w-100' onClick='AfficherFormulaire()'>Ajouter</button>
+  <form class='d-none' id='ajoutForm' action="" method="POST" enctype="multipart/form-data">
+    <fieldset>
+      <legend>Création d'un livre</legend>
+      <div class="form-group">
+        <label for="titre">Titre</label>
+        <input type="text" class="form-control" id="titre" name="titre">
+      </div>
+      <div class="form-group">
+        <label for="auteur">Auteur</label>
+        <input type="text" class="form-control" id="auteur" name="auteur">
+      </div>
+      <div class="form-group">
+        <label for="pages">Pages</label>
+        <input type="number" class="form-control" id="pages" name="pages">
+      </div>
+      <div class="form-group">
+        <label for="pages">Description</label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="pages">Image</label>
+        <input type="file" class="form-control-file" id="image" name="image">
+      </div>
+      <button class="btn btn-primary" type='submit'>Valider</button>
+    </fieldset>
+  </form>
+  <script src="/javascript/ajoutLivre.js"></script>
+{% endblock %}

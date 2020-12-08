@@ -1,0 +1,8 @@
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sigmar One', cursive;
+}
+
+.p-bg-blue {
+  background-color: rgb(103, 172, 218);
+  color: white;
+}
