@@ -11,6 +11,7 @@
   <table class="table text-center" id='tableauLivre'>
     <t class="head">
       <tr class="table-dark">
+        <th>Image</th>
         <th>Titre</th>
         <th>Auteur</th>
         <th>Nombre de pages</th>
@@ -20,11 +21,12 @@
     <tbody>
       {% for livre in liste %}
         <tr>
-          <td><a href= "/livres/{{ livre._id }}">{{ livre.nom }}</a></td>
-          <td>{{ livre.auteur }}</td>
-          <td>{{ livre.pages }}</td>
-          <td><a href="livres/modification/{{ livre._id }}" class="btn btn-warning">Modifier</a></td>
-          <td>
+          <td class="align-middle"><img src="images/{{ livre.image }}" alt="" width="60px"></td>
+          <td class="align-middle"><a href= "/livres/{{ livre._id }}">{{ livre.nom }}</a></td>
+          <td class="align-middle"><a href="/auteurs/{{ livre.auteur.id }}">{{ livre.auteur.nom }} - {{ livre.auteur.prenom }} </a></td>
+          <td class="align-middle">{{ livre.pages }}</td>
+          <td class="align-middle"><a href="livres/modification/{{ livre._id }}" class="btn btn-warning">Modifier</a></td>
+          <td class="align-middle">
             <form method="POST" action="/livres/delete/{{ livre._id }}" onSubmit="return confirm('Voulez-vous vraiment supprimer le livre?')">
               <button type="submit" class="btn btn-danger">Supprimer</button>
             </form>
@@ -43,7 +45,11 @@
       </div>
       <div class="form-group">
         <label for="auteur">Auteur</label>
-        <input type="text" class="form-control" id="auteur" name="auteur">
+        <select class="form-control" name="auteur" id="auteur">
+          {% for auteur in auteurs %}
+            <option value={{auteur.id}}>{{ auteur.prenom }} {{ auteur.nom }}</option>
+          {% endfor %}
+        </select>
       </div>
       <div class="form-group">
         <label for="pages">Pages</label>
@@ -54,11 +60,11 @@
         <textarea class="form-control" id="description" name="description"></textarea>
       </div>
       <div class="form-group">
-        <label for="pages">Image</label>
+        <label for="image">Image</label>
         <input type="file" class="form-control-file" id="image" name="image">
       </div>
       <button class="btn btn-primary" type='submit'>Valider</button>
     </fieldset>
   </form>
-  <script src="/javascript/ajoutLivre.js"></script>
+  <script src="/javascript/ajoutForm.js"></script>
 {% endblock %}

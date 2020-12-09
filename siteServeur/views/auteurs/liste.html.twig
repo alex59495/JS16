@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block titre %}Les auteurs{% endblock %}
+
+{% block contenu %}
+  <table class="table text-center" id='tableauLivre'>
+    <t class="head">
+      <tr class="table-dark">
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Nombre de livres</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </t>
+    <tbody>
+      {% for auteur in auteurs %}
+        <tr>
+          <td class="align-middle"><a href="/auteurs/{{ auteur.id }}">{{ auteur.prenom }}</a></td>
+          <td class="align-middle">{{ auteur.nom }}</td>
+          <td class="align-middle">{{ auteur.livres|length }}</td>
+          <td class="align-middle"><a href="/auteurs/modification/{{ auteur._id }}" class="btn btn-warning">Modifier</a></td>
+          <td class="align-middle">
+            <form method="POST" action="/auteurs/delete/{{ auteur._id }}" onSubmit="return confirm('Voulez-vous vraiment supprimer l\'auteur?')">
+              <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <button class='btn btn-success d-block w-100' onClick='AfficherFormulaire()'>Ajouter</button>
+  <form class='d-none' id='ajoutForm' action="" method="POST">
+    <fieldset>
+      <legend>Création d'un auteur</legend>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom">
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom">
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age">
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="sexe" name="sexe">
+        <label class="form-check-label" for="sexe">Homme</label>
+      </div>
+      <button class="btn btn-primary" type='submit'>Valider</button>
+    </fieldset>
+  </form>
+  <script src="/javascript/ajoutForm.js"></script>
+{% endblock %}

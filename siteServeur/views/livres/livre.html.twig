@@ -8,12 +8,13 @@
       <div class="row m-2">
         <div class="col-6">
           <h2>Informations :</h2>
-          <div>Auteur : {{ livre.nom }}</div>
+          <div>Auteur : <a href="/auteurs/{{livre.auteur.id}}">{{ livre.auteur.nom }} {{ livre.auteur.prenom }}</a></div>
           <div>Nombre de page : {{ livre.pages }}</div>
-          <img src="https://picsum.photos/200/200" alt="">
+          <img src="/images/{{ livre.image }}" alt="">
         </div>
         <div class="col-6">
           <h2>Résumé</h2>
+          <div>{{ livre.description }}</div>
         </div>
       </div>
     </form>
@@ -28,7 +29,17 @@
           </div>
           <div class="form-group">
             <label for="auteur">Auteur</label>
-            <input type="text" class="form-control" id="auteur" name="auteur" value = "{{ livre.auteur }}">
+            <select class="form-control" name="auteur" id="auteur">
+              {% for auteur in auteurs %}
+                <option value={{auteur.id}} 
+                  {% if auteur.id == livre.auteur.id %}
+                    selected
+                  {% endif %}
+                >
+                  {{ auteur.prenom }} {{ auteur.nom }}
+                </option>
+              {% endfor %}
+            </select>
           </div>
           <div class="form-group">
             <label for="pages">Pages</label>
@@ -45,6 +56,20 @@
       </div>
       <input type="hidden" name="id" value="{{ livre.id }}">
       <input type="submit" value="valider" class="btn btn-primary w-100">
+    </form>
+    <form method="POST" action="/livres/updateImage" enctype="multipart/form-data">
+      <h2>Image</h2>
+      <input type="hidden" name="id" value="{{ livre.id }}">
+      <div class="row">
+        <img src="/images/{{ livre.image }}" alt="" class="col-3">
+        <div class="col-9">
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control-file" id="image" name="image">
+          </div>
+          <input type="submit" class="btn btn-primary" value="Modifier l'image">
+        </div>
+      </div>
     </form>
   {% endif %}
 {% endblock %}
